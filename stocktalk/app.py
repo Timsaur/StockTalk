@@ -9,4 +9,4 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'XYZ')
 
 @app.route('/')
 def index():
-    return render_template('index.html', message = "help")
+    return render_template('base.html')
