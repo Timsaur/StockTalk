@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+ 
+{% block content %}
+    <h2>{% block lesson %}{% endblock %}</h2>
+
+    {% block text %}
+    {% endblock %}
+    <p><br/></p>
+    <button data-toggle="collapse" data-target="#demo" class="btn btn-info center-block quiz-button">Show Quiz</button>
+	<p></br></p>
+    <div id="demo" class="collapse">
+        <div class="panel panel-primary">
+            <div class="panel-heading">{% block quiz %}{% endblock %}</div>
+            <div class="panel-body">
+
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                    {% block choice1 %}{% endblock %}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">{% block ans1 %}{% endblock %}</div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                    {% block choice2 %}{% endblock %}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">{% block ans2 %}{% endblock %}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+<script src="static/lesson.js"></script>
+{% endblock %}
