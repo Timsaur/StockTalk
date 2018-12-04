@@ -1,6 +1,5 @@
 import os
 import psycopg2
-<<<<<<< HEAD
 import matplotlib.pyplot as plt
 import numpy as np
 #import test
@@ -12,6 +11,7 @@ from sqlalchemy import create_engine
 import graph
 import json
 import requests
+from predict import *
 
 # postgresql-spherical-72286
 app = Flask(__name__)
@@ -138,6 +138,6 @@ def history():
             open_price.append(element["open"])
             date.append(element["date"])
         #graph = graph.my_plotter(ax, open_price[len(open_price)-30:], date[len(open_price)-30:])
-        data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "change":raw[len(raw)-1]["changeOverTime"], "ticker":stock["ticker"].upper()})
+        data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(stock["ticker"]), "ticker":stock["ticker"].upper()})
 
     return render_template("bookmarks.html", data=data)
