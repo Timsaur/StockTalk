@@ -15,7 +15,8 @@
                 <th>Volume</th>
                 <th>Open</th>
                 <th>Close</th>
-                <th>Change Over Time</th>
+                <!-- <th>Change Over Time</th> -->
+                <th>Prediction</th>
             </tr>
         </thread>
         <tbody>
@@ -24,14 +25,15 @@
                 <td>{{stock["volume"]}}</td>
                 <td>{{stock["open"]}}</td>
                 <td>{{stock["close"]}}</td>
-                <td>{{stock["change"]}}</td>
+                <!-- <td>{{stock["change"]}}</td> -->
+                <td>{{stock["predict"]}}</td>
             </tr>
         </tbody>
     </table>
 
-    <div class="row text-center">
+    <!-- <div class="row text-center">
     <img src="data:image/png;base64, {{stock["graph"]}}" class="center">
-    </div>
+    </div> -->
 
 {% endfor %}
 {% endblock %}

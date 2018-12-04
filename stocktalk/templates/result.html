@@ -6,7 +6,8 @@
 
 {% block main %}
 
-	{{ticker}}
+{% for stock in data %}
+    {{stock["ticker"]}}
     <table class="table table-striped">
         <thread>
             <tr>
@@ -14,25 +15,29 @@
                 <th>Volume</th>
                 <th>Open</th>
                 <th>Close</th>
-                <th>Change Over Time</th>
+                <!-- <th>Change Over Time</th> -->
+                <th>Prediction</th>
             </tr>
         </thread>
         <tbody>
-            {% for stock in raw %}
             <tr>
                 <td>{{stock["date"]}}</td>
                 <td>{{stock["volume"]}}</td>
                 <td>{{stock["open"]}}</td>
                 <td>{{stock["close"]}}</td>
+                <!-- <td>{{stock["change"]}}</td> -->
                 <td>{{stock["predict"]}}</td>
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 
-    <div class="row text-center">
-    <img src="data:image/png;base64, {{graph}}" class="center">
+    <!-- <div class="row text-center">
+    <img src="data:image/png;base64, {{stock["graph"]}}" class="center">
+    </div> -->
+    <div class = "row justify-content-md-center">
+        <form action="/bookmarks" method="post">
+            <button class="btn btn-primary" type="submit">Bookmark</button>
+        </form>
     </div>
-    
+{% endfor %}
 {% endblock %}
-

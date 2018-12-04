@@ -71,7 +71,7 @@ def train(data):
 	# train_data = (train_data - mean) / std
 	# test_data = (test_data - mean) / std
 
-	model.fit(data[0], data[1])
+	model.fit(data[0], data[1], epochs=10)
 	return model
 
 def run(ticker):
@@ -90,11 +90,11 @@ def run(ticker):
 	test_prediction = model.predict(train_data)
 	# print(test_prediction[0][0]+avg)
 
-	test_predictions = model.predict(train_data).flatten()
-	error = test_predictions - train_labels.flatten()
+	# test_predictions = model.predict(train_data).flatten()
+	# error = test_predictions - train_labels.flatten()
 	# print(sum(error)/len(error))
 
-	return(test_prediction[0][0]+avg)
+	return(round(test_prediction[0][0]+avg, 2))
 
 
 if __name__ == '__main__':

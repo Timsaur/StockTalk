@@ -14,6 +14,7 @@ import requests
 from predict import *
 
 # postgresql-spherical-72286
+ticker = "help"
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'XYZ')
@@ -31,24 +32,35 @@ db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
-def index():   
-    if request.method == "POST":
-        if not request.form.get("symbol"):
-            return render_template("base.html")
-        result = lookup(request.form.get("symbol"))
-        if result == None:
-            return render_template("base.html")
-        url = 'https://api.iextrading.com/1.0/stock/' + request.form.get("ticker") + '/chart/5y'
-        r = requests.get(url)
-        raw = json.loads(r.text)
-        for element in raw:
-            open_price=[]
-            open_price.append(element["open"])
-            date = []
-            date.append(element["date"])
-            graph = graph.my_plotter(ax, history[0:30], date[0:30])
-        return render_template("result.html", graph=graph)
-    return render_template("base.html")
+def index():
+	if request.method == "POST":
+		if not request.form.get("symbol"):
+			return redirect("/")
+		symbol = request.form.get("symbol")
+		try:
+			result = run(symbol)
+		except:
+			return render_template("base.html")
+		ticker = symbol
+		url = 'https://api.iextrading.com/1.0/stock/' + symbol + '/chart/2y'
+		r = requests.get(url)
+		raw = json.loads(r.text)
+		data=[]
+		open_price=[]
+		date = []
+		for element in raw:
+			open_price.append(element["open"])
+			date.append(element["date"])
+		data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(symbol), "ticker":symbol.upper()})
+		return render_template("result.html", data=data)
+	return render_template("base.html")
+
+@app.route('/result', methods=['POST'])
+@login_required
+def result():
+	db.execute("INSERT INTO stocks (username, stock) VALUES ('%s', '%s')" % (session.get("username"), ticker))
+	return redirect("bookmarks")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -120,13 +132,13 @@ def check():
     # If not, return true
     return jsonify(True)
 
-@app.route("/bookmarks")
+@app.route("/bookmarks", methods=["GET", "POST"])
 @login_required
 def history():
     # Select all from purchase_histories so we can choose what to display in the html
-    # bookmarks = db.execute("SELECT * FROM stocks WHERE username= '%s'" % session.get("username"))
-    # fetch = bookmarks.fetchall()
-    fetch = [{"ticker":"aapl"},{"ticker":"amzn"}]
+    bookmarks = db.execute("SELECT * FROM stocks WHERE username= '%s'" % session.get("username"))
+    fetch = bookmarks.fetchall()
+    # fetch = [{"ticker":"aapl"},{"ticker":"amzn"}]
     data = []
     for stock in fetch:
         url = 'https://api.iextrading.com/1.0/stock/' + stock["ticker"] + '/chart/2y'
