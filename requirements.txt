@@ -13,7 +13,6 @@ pygresql
 matplotlib
 numpy
 werkzeug
-graph
 sqlalchemy
 json
 requests
