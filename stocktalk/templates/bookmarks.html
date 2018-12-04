@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Result
+    Bookmarks
 {% endblock %}
 
 {% block main %}
 
-	{{ticker}}
+{% for stock in data %}
+    {{stock["ticker"]}}
     <table class="table table-striped">
         <thread>
             <tr>
@@ -18,21 +19,19 @@
             </tr>
         </thread>
         <tbody>
-            {% for stock in raw %}
             <tr>
                 <td>{{stock["date"]}}</td>
                 <td>{{stock["volume"]}}</td>
                 <td>{{stock["open"]}}</td>
                 <td>{{stock["close"]}}</td>
-                <td>{{stock["predict"]}}</td>
+                <td>{{stock["change"]}}</td>
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 
     <div class="row text-center">
-    <img src="data:image/png;base64, {{graph}}" class="center">
+    <img src="data:image/png;base64, {{stock["graph"]}}" class="center">
     </div>
-    
-{% endblock %}
 
+{% endfor %}
+{% endblock %}

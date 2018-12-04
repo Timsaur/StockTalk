@@ -1,8 +1,8 @@
 from __future__ import absolute_import, division, print_function
-from tensorflow import keras
+import tensorflow as tf
 import requests
 import json
-import tensorflow as tf
+from tf import keras
 import numpy as np
 
 
@@ -148,14 +148,3 @@ get_data("aapl")
 # _ = plt.plot([-100, 100], [-100, 100])
 
 # print(test_predictions)
-
-
-
-
-
-
-
-
-
-
-
