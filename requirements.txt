@@ -10,7 +10,7 @@ pygresql
 keras
 psycopg2-binary
 pygresql
-matplotlib.pyplot
+matplotlib
 numpy
 werkzeug.security
 graph
