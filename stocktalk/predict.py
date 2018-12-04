@@ -4,28 +4,49 @@ import requests
 import json
 import tensorflow as tf
 import numpy as np
+import matplotlib.pyplot as plt
 
 # print(tf.__version__)
-FACTORS = 25
+FACTORS = 3
+LAG = 25
 history = []
+volume = []
+sp = []
 
 def get_data(ticker):
 	url = 'https://api.iextrading.com/1.0/stock/' + ticker + '/chart/2y'
 	r = requests.get(url)
 	raw = json.loads(r.text)
+
+	sp_url = 'https://api.iextrading.com/1.0/stock/SPY/chart/2y'
+	r = requests.get(sp_url)
+	raw_sp = json.loads(r.text)
 	# print(len(raw))
 	# history = []
 	for element in raw:
 		history.append(element["open"])
+		volume.append(element["volume"]/10000000)
 
-	train_data = np.zeros((len(history)-FACTORS,FACTORS))
-	train_labels = np.zeros((len(history)-FACTORS,1))
+	for element in raw_sp:
+		sp.append(element["open"]/100)
 
-	for i in range(0,len(history)-FACTORS-1):
-		avg = sum(history[i:i+FACTORS])/FACTORS
-		temp = [j - avg for j in history[i:i+FACTORS]]
-		train_data[i] = np.array(temp)
-		train_labels[i] = np.array(history[FACTORS]-avg)
+	train_data = np.zeros((len(history)-LAG,FACTORS))
+	train_labels = np.zeros((len(history)-LAG,1))
+
+	for i in range(0,len(history)-LAG):
+		avg = sum(history[i:i+LAG])/LAG
+		temp = avg - history[i+LAG-1]
+		train_data[i] = np.array([temp,volume[i+LAG-1],sp[i+LAG-1]])
+		train_labels[i] = np.array(history[i+LAG]-avg)
+	# print(train_data)
+	# print(train_labels)
+
+	# for i in range(0,len(history)-FACTORS-1):
+	# 	avg = sum(history[i:i+FACTORS])/FACTORS
+	# 	temp = [j - avg for j in history[i:i+FACTORS]]
+	# 	train_data[i] = np.array(temp)
+	# 	train_labels[i] = np.array(history[i+FACTORS]-avg)
+
 	return (train_data, train_labels)
 
 def build_model(train_data):
@@ -54,16 +75,30 @@ def train(data):
 	return model
 
 def run(ticker):
-	model = train(get_data(ticker))
+	(train_data, train_labels) = get_data(ticker)
+	model = train((train_data, train_labels))
+
 	avg = sum(history[len(history)-FACTORS:])/FACTORS
 	temp = np.array([np.array([j - avg for j in history[len(history)-FACTORS:]])])
 	# print(temp.shape)
-	test_prediction = model.predict(temp)
-	print(test_prediction[0][0]+avg)
+	train_data = np.zeros((1,FACTORS))
+
+	avg = sum(history[len(history)-LAG:])/LAG
+	temp = avg - history[len(history)-1]
+	train_data[0] = np.array([temp,volume[len(history)-1],sp[len(history)-1]])
+
+	test_prediction = model.predict(train_data)
+	# print(test_prediction[0][0]+avg)
+
+	test_predictions = model.predict(train_data).flatten()
+	error = test_predictions - train_labels.flatten()
+	# print(sum(error)/len(error))
+
 	return(test_prediction[0][0]+avg)
 
+
 if __name__ == '__main__':
-	run("amzn")
+	run("cvs")
 	# get_data("aapl")
 	# model = build_model()
 	# model.summary()
