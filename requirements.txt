@@ -12,7 +12,7 @@ psycopg2-binary
 pygresql
 matplotlib
 numpy
-werkzeug.security
+werkzeug
 graph
 sqlalchemy
 json
