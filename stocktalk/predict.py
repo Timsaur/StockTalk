@@ -88,17 +88,17 @@ def run(ticker):
 	train_data[0] = np.array([temp,volume[len(history)-1],sp[len(history)-1]])
 
 	test_prediction = model.predict(train_data)
-	# print(test_prediction[0][0]+avg)
+	print(test_prediction[0][0]+avg)
 
-	# test_predictions = model.predict(train_data).flatten()
-	# error = test_predictions - train_labels.flatten()
-	# print(sum(error)/len(error))
+	test_predictions = model.predict(train_data).flatten()
+	error = test_predictions - train_labels.flatten()
+	print(sum(error)/len(error))
 
 	return(round(test_prediction[0][0]+avg, 2))
 
 
 if __name__ == '__main__':
-	run("cvs")
+	run("amzn")
 	# get_data("aapl")
 	# model = build_model()
 	# model.summary()
