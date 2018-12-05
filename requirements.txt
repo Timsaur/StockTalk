@@ -1,8 +1,8 @@
-Flask==0.12.1
+flask
+flask_session
 gunicorn==19.7.1
 whitenoise==3.2.2
 psycopg2
-<<<<<<< HEAD
 tensorflow
 keras
 psycopg2-binary
@@ -10,3 +10,8 @@ pygresql
 keras
 psycopg2-binary
 pygresql
+matplotlib
+numpy
+werkzeug
+sqlalchemy
+requests

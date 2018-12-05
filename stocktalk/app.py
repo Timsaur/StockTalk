@@ -8,13 +8,12 @@ from flask import Flask, render_template, g, request, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import create_engine
-import graph
+# import graph
 import json
 import requests
 from predict import *
 
 # postgresql-spherical-72286
-ticker = "AAPL"
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'XYZ')
@@ -33,6 +32,7 @@ db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
+	print(session.get("user_id"))
 	if request.method == "POST":
 		if not request.form.get("symbol"):
 			return redirect("/")
@@ -41,7 +41,8 @@ def index():
 			result = run(symbol)
 		except:
 			return render_template("base.html")
-		ticker = symbol
+		# global ticker
+		session["ticker"] = symbol
 		url = 'https://api.iextrading.com/1.0/stock/' + symbol + '/chart/2y'
 		r = requests.get(url)
 		raw = json.loads(r.text)
@@ -55,16 +56,26 @@ def index():
 		return render_template("result.html", data=data)
 	return render_template("base.html")
 
-@app.route('/result', methods=['POST'])
+@app.route('/result', methods=['GET', 'POST'])
 @login_required
 def result():
-	db.execute("INSERT INTO stocks (username, stock) VALUES ('%s', '%s')" % (session.get("username"), ticker))
-	return redirect("bookmarks")
+	if request.method == "POST":
+		ticker = session["ticker"]
+		print(ticker)
+		try:
+			rows = db.execute("SELECT * FROM stocks WHERE username = ('%s') AND stock = ('%s')" % (session.get("user_id"), ticker.upper()))
+			fetch = rows.fetchall()
+			if len(fetch) >= 1:
+				return redirect("bookmarks")
+		except:
+			pass
+		db.execute("INSERT INTO stocks (username, stock) VALUES ('%s', '%s')" % (session.get("user_id"), ticker.upper()))
+		return redirect("bookmarks")
+	return redirect("/")
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
     session.clear()
     if request.method == "POST":
         if not request.form.get("username"):
@@ -83,6 +94,7 @@ def login():
             return render_template("login.html")
 
         session["user_id"] = request.form.get("username")
+        print(session.get("user_id"))
         return redirect("/")
     return render_template("login.html")
 
@@ -134,29 +146,29 @@ def check():
 
 @app.route("/bookmarks", methods=["GET", "POST"])
 @login_required
-def history():
+def bookmarks():
     # Select all from purchase_histories so we can choose what to display in the html
-    bookmarks = db.execute("SELECT * FROM stocks WHERE username= '%s'" % session.get("username"))
+    if request.method == "POST":
+        symbol = request.form.get("ticker")
+        db.execute("DELETE FROM stocks WHERE username = ('%s') AND stock = ('%s')" % (session.get("user_id"), symbol))
+        return redirect("bookmarks")
+
+    bookmarks = db.execute("SELECT * FROM stocks WHERE username= '%s'" % session.get("user_id"))
     fetch = bookmarks.fetchall()
+    print(fetch)
     # fetch = [{"ticker":"aapl"},{"ticker":"amzn"}]
     data = []
-    pizza = [1,2,3,4]
-    banana = [1,2,3,4]
-    hello = graph.my_plotter(pizza, banana)
-    data.append(hello)
-    # for stock in fetch:
-    #     print(stock["stock"])
-    #     url = 'https://api.iextrading.com/1.0/stock/' + stock["stock"] + '/chart/2y'
-    #     r = requests.get(url)
-    #     raw = json.loads(r.text)
-    #     open_price=[]
-    #     date = []
-    #     for element in raw:
-    #         open_price.append(element["open"])
-    #         date.append(element["date"])
-    #     graph = graph.my_plotter(ax, open_price[len(open_price)-30:], date[len(open_price)-30:])
-    #     data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(stock["stock"]), "ticker":stock["stock"].upper()})
-
+    for stock in fetch:
+        url = 'https://api.iextrading.com/1.0/stock/' + stock["stock"] + '/chart/2y'
+        r = requests.get(url)
+        raw = json.loads(r.text)
+        open_price=[]
+        date = []
+        for element in raw:
+            open_price.append(element["open"])
+            date.append(element["date"])
+        #graph = graph.my_plotter(ax, open_price[len(open_price)-30:], date[len(open_price)-30:])
+        data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(stock["stock"]), "ticker":stock["stock"].upper()})
     return render_template("bookmarks.html", data=data)
 
 @app.route("/logout")
