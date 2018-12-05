@@ -36,4 +36,19 @@
     </div> -->
 
 {% endfor %}
+
+    <form action="/bookmarks" method="post" class="col-md-12 text-center top30">
+
+        <div class="form-group">
+            <select class="form-control" name="ticker">
+                <option disabled selected value="">Select Stock</option>
+                {% for stock in data %}
+                <option value={{stock["ticker"]}}>{{stock["ticker"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Remove</button>
+    </form>
 {% endblock %}
+
+
