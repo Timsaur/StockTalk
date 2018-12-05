@@ -6,8 +6,8 @@ from functools import wraps
 from flask import g, request, redirect, url_for, session
 
 
-def my_plotter(ax, time, price): 
-	ax.plot(time, price)
+def my_plotter(time, price): 
+	plt.plot(time, price)
 	plt.xlabel('Time')
 	plt.ylabel('Price')
 	plt.title('Stock Lookup')

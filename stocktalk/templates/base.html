@@ -4,6 +4,25 @@
     Base
 {% endblock %}
 
+{% block nav %}
+
+    <div class="page-container">
+
+            <div class="navbar navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">StockTalk</a>
+                    </div>
+                    <div class = "order-3">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item"><a class="nav-link" href="/bookmarks">Bookmarks</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                        </ul>
+                    </div>
+            </div>
+    </div>
+
+{% endblock %}
 {% block main %}
 
 <div class = "row justify-content-md-center">

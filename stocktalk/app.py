@@ -14,7 +14,7 @@ import requests
 from predict import *
 
 # postgresql-spherical-72286
-ticker = "help"
+ticker = "AAPL"
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'XYZ')
@@ -140,16 +140,27 @@ def history():
     fetch = bookmarks.fetchall()
     # fetch = [{"ticker":"aapl"},{"ticker":"amzn"}]
     data = []
-    for stock in fetch:
-        url = 'https://api.iextrading.com/1.0/stock/' + stock["ticker"] + '/chart/2y'
-        r = requests.get(url)
-        raw = json.loads(r.text)
-        open_price=[]
-        date = []
-        for element in raw:
-            open_price.append(element["open"])
-            date.append(element["date"])
-        #graph = graph.my_plotter(ax, open_price[len(open_price)-30:], date[len(open_price)-30:])
-        data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(stock["ticker"]), "ticker":stock["ticker"].upper()})
+    pizza = [1,2,3,4]
+    banana = [1,2,3,4]
+    hello = graph.my_plotter(pizza, banana)
+    data.append(hello)
+    # for stock in fetch:
+    #     print(stock["stock"])
+    #     url = 'https://api.iextrading.com/1.0/stock/' + stock["stock"] + '/chart/2y'
+    #     r = requests.get(url)
+    #     raw = json.loads(r.text)
+    #     open_price=[]
+    #     date = []
+    #     for element in raw:
+    #         open_price.append(element["open"])
+    #         date.append(element["date"])
+    #     graph = graph.my_plotter(ax, open_price[len(open_price)-30:], date[len(open_price)-30:])
+    #     data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(stock["stock"]), "ticker":stock["stock"].upper()})
 
     return render_template("bookmarks.html", data=data)
+
+@app.route("/logout")
+@login_required
+def logout():
+    session.clear()
+    return redirect("/")

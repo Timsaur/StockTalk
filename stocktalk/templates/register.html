@@ -4,6 +4,25 @@
     Register
 {% endblock %}
 
+{% block nav %}
+
+    <div class="page-container">
+
+            <div class="navbar navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">StockTalk</a>
+                    </div>
+                    <div class = "order-3">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                        </ul>
+                    </div>
+            </div>
+    </div>
+
+{% endblock %}
 {% block main %}
     <form action="/register" method="post" name="form1" onsubmit="test()">
         <div class="form-group">
