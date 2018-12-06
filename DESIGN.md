@@ -4,32 +4,16 @@ StockTalk is a web application that allows users to input a stock symbol to pres
 
 ## Overview
 
-Project
- |
- +-- file 1
- |    
- +-- dir 2
- |  |  
- |  +-- file 2.1
- |    
- +-- dir 3
- |  |  
- |  +-- file 3.1
- |  +-- file 3.2
- |    
- +-- dir 4
- |  |  
- +  |-- dir 4.1
+The design of our project can be split between the front-end, the back-end, and the integration of the front-end and the back-end.  
 
-### Prerequisites
+## Front-end
 
-In requirements.txt are all of the packages necessary to run this website properly on your local machine. First, navigate to the main project folder. To download all of the necessary packages, use the following command:
+#### app.py
 
-```
-$ pip install -r requirements.txt
-```
+#### main.py
 
-### Running the App
+
+## Back-end
 
 To run the app, run the following command:
 
