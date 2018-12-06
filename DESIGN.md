@@ -31,19 +31,19 @@ The design of our project can be split between the front-end, the back-end, and 
 
 We used the IEX Finance API to get historical stock data. We did this via calls to a specific url, which then returns the relevant stock data withing a certain time frame.  The API returns the data as json data. For example, to get relavent stock data for Apple for the past 2 years, you could visit the following url:
 
-'''
+```
 https://api.iextrading.com/1.0/stock/SPY/chart/2y
-'''
+```
 
 More information on how we processed this raw data can be found in the **predict.py** file explanation.
 
 #### PostgresSQL
 
-PostgresSQL is a package/add on to Heroku that allows us to attach an online database (which we use to store usernames, passwords, and a user's list of stocks) to our application. We have our unique database hosted by Heroku, and we connect to our database by calling its unique url as shown in the following line of Python code:
+PostgresSQL is a package/add on to Heroku that allows us to attach an online database (which we use to store usernames, passwords, and a user's list of stocks) to our application. Our unique database is hosted on an Amazon server, and we connect to our database by calling its unique url as shown in the following line of Python code:
 
-'''
+```
 db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f551bd9abeeb3e51a4ef19dd3cca5bb@ec2-54-204-36-249.compute-1.amazonaws.com:5432/dcgq0vpeghnls2')
-'''
+```
 
 More information on how we used this database can be found in the **app.py** file explanation.
 
