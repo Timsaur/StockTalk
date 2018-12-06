@@ -8,7 +8,7 @@ The design of our project can be split between the front-end, the back-end, and 
 
 ## Front-end
 
-#### app.py
+### app.py
 
 #### main.py
 
