@@ -62,8 +62,8 @@ StockTalk employs Python for the back-end, and Flask, CSS, HTML, & Javascript fo
 
 ### Authors
 
-* **Timothy Li**
-* **Eddie Tu**
+* Timothy Li
+* Eddie Tu
 
 ### Acknowledgments
 
