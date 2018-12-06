@@ -48,7 +48,7 @@ After predicting the future value of a stock, you are given the option to save t
 
 The bookmark page also allows you to select a stock via a dropdown menu and delete said stock from your bookmarked stocks.  Once the stock is deleted, the bookmark page will reload with your updated stocks and their predictions.
 
-### Additional Information
+## Additional Information
 
 1. The user must input the same password / confirmation password on the register page or they will be redirected to the register page.
 2. The user must input a unique username for register to succeed, else they will be prompted by a Javascript alert to choose a different username.
@@ -56,16 +56,16 @@ The bookmark page also allows you to select a stock via a dropdown menu and dele
 4. The user must be logged-in to access the financial utilities.
 5. Bookmarks is implemented so that the user cannot bookmark the same stock twice.
 
-## Built With
+### Built With
 
 StockTalk employs Python for the back-end, and Flask, CSS, HTML, & Javascript for the front-end website. StockTalk uses Iex to gather financial data, and tensorflow to build and train a model.
 
-## Authors
+### Authors
 
 * **Timothy Li**
 * **Eddie Tu**
 
-## Acknowledgments
+### Acknowledgments
 
 * CS50
 * Isaac Struhl
