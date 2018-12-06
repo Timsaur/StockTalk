@@ -8,42 +8,36 @@ The design of our project can be split between the front-end, the back-end, and 
 
 ## Front-end
 
-### app.py
+### HTML
 
-#### main.py
+#### base.html
+
+#### etc etc
+
+### CSS
+
+####
+
+### JavaScript
 
 
 ## Back-end
 
-To run the app, run the following command:
+### APIs
 
-```
-$ python stocktalk/main.py
-```
+#### IEX Finance API
 
-This should set up and run the app on your local machine. The website will be hosted on your localhost. You can open up the website by visiting the url *localhost:5000* on your local internet browser.
+#### PostgresSQL
 
-## Using the App
+#### 
 
-StockTalk has the following features: register, login, predict, bookmark, and delete. A guide to each of these features follows.
+## Integration
 
-### Register
+### APIs
 
-Create a new account by navigating to the register page via the navigation bar at the top of the page.  To successfully register a new user, you must have a unique username and correctly input the same password twice.
+#### Flask
 
-### Login
-
-To login and use the app/save your bookmarked stocks, navigate to the login page via the navigation bar at the top of the page. Provided that you have inputted an existing username and the correct password, you should now be redirected to the predict page. You must be logged in to use StockTalk.
-
-### Predict
-
-On the predict page, you can input the ticker symbol of an existing stock and have the website predict the future value of the stock. This process may take some time, as the app must build and train a model to give a prediction.
-
-### Bookmark
-
-After predicting the future value of a stock, you are given the option to save this stock to your bookmarked stocks. Bookmarks is implemented such that you cannot bookmark the same stock twice. After bookmarking a stock, you will be redirected to the bookmarks page, which predicts the stock price for all of your bookmarked stocks. Alternatively, you can navigate directly to the bookmarks page via the navigation bar at the top, provided you are logged in.
-
-The bookmark page also allows you to select a stock via a dropdown menu and delete said stock from your bookmarked stocks.  Once the stock is deleted, the bookmark page will reload with your updated stocks and their predictions.
+#### Heroku
 
 ## Additional Information
 
