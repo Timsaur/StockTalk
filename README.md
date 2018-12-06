@@ -38,21 +38,15 @@ Create a new account by navigating to the register page via the navigation bar a
 
 To login and use the app/save your bookmarked stocks, navigate to the login page via the navigation bar at the top of the page. Provided that you have inputted an existing username and the correct password, you should now be redirected to the predict page. You must be logged in to use StockTalk.
 
-## Predict
+### Predict
 
 On the predict page, you can input the ticker symbol of an existing stock and have the website predict the future value of the stock. This process may take some time, as the app must build and train a model to give a prediction.
 
-## Bookmark
+### Bookmark
 
 After predicting the future value of a stock, you are given the option to save this stock to your bookmarked stocks. Bookmarks is implemented such that you cannot bookmark the same stock twice. After bookmarking a stock, you will be redirected to the bookmarks page, which predicts the stock price for all of your bookmarked stocks. Alternatively, you can navigate directly to the bookmarks page via the navigation bar at the top, provided you are logged in.
 
 The bookmark page also allows you to select a stock via a dropdown menu and delete said stock from your bookmarked stocks.  Once the stock is deleted, the bookmark page will reload with your updated stocks and their predictions.
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ### Additional Information
 
@@ -61,6 +55,10 @@ The bookmark page also allows you to select a stock via a dropdown menu and dele
 3. The user must input a correct username/password combination for login to succeeded, or they will be redirected to the login page.
 4. The user must be logged-in to access the financial utilities.
 5. Bookmarks is implemented so that the user cannot bookmark the same stock twice.
+
+## Built With
+
+StockTalk employs Python for the back-end, and Flask, CSS, HTML, & Javascript for the front-end website. StockTalk uses Iex to gather financial data, and tensorflow to build and train a model.
 
 ## Authors
 
