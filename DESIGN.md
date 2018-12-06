@@ -57,7 +57,17 @@ More information on how we used TensorFlow can be found in the **predict.py** fi
 
 #### predict.py
 
+predict.py has the following methods: get_data, build_model, train, and run. Each of these methods will be explained in more detail below:
 
+##### get_data(ticker)
+
+get_data(ticker) takes in a company's ticker symbol and then calls the IEX API. It then stores the raw data in a variable called raw. 
+
+##### build_model(train_data)
+
+##### train(data)
+
+##### run(ticker)
 
 
 ## Integration
@@ -75,10 +85,6 @@ More information on how we used TensorFlow can be found in the **predict.py** fi
 3. The user must input a correct username/password combination for login to succeeded, or they will be redirected to the login page.
 4. The user must be logged-in to access the financial utilities.
 5. Bookmarks is implemented so that the user cannot bookmark the same stock twice.
-
-### Built With
-
-StockTalk employs Python for the back-end, and Flask, CSS, HTML, & Javascript for the front-end website. StockTalk uses Iex to gather financial data, and tensorflow to build and train a model.
 
 ### Authors
 
