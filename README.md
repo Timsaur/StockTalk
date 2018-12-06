@@ -1,31 +1,72 @@
-1. Included in the file is requirements.txt - all of the packages included in requirements are necessary to run this website properly. To run locally, execute in terminal:
+# StockTalk
+
+StockTalk is a web application that allows users to input a stock symbol to present relevant financial information to the user as well as predict a stock price for the following day.
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. Alternatively, you can visit *stocktalk.herokuapp.com* to access the version of StockTalk that we have published on Heroku.
+
+Once you have our website in front of you, please move on to the **Using the App** section.
+
+### Prerequisites
+
+In requirements.txt are all of the packages necessary to run this website properly on your local machine. First, navigate to the main project folder. To download all of the necessary packages, use the following command:
+
+```
 $ pip install -r requirements.txt
-Once in the file .../stocktalk/stocktalk/ the user can execute:
-$ python main.py
-and visit localhost:5000 in order to access the web app locally. Alternatively, the user can visit stocktalk.herokuapp.com to access the version of StockTalk that we have pushed to a Heroku app via GitHub.
+```
 
-2. The website emplys Python for the back-end, and Flask, CSS, HTML, & Javascript for the front-end website.
+### Running the App
 
-3. StockTalk is a web application that allows users to input a stock symbol to present relevant financial information to the user as well as predicting a stock price for the following day. We have successfully implemented our primary goal of developing a machine learning algorithm using Tensorflow that can closely predict the price movement within a reasonable margin of error. 
-(tim can talk about the algorithm here)
+To run the app, run the following command:
 
-4. The website is implemented in a similar way to Harvard College's CS50 PSET 8 Finance, as it includes user account registration and login functions, as well as stock data lookup based on a stock symbol of user input. User functions differ in that StockTalk will predict a future stock price for the user, intended to help the user make investment decisions. Additional functionality includes a bookmark function and a bookmarks.html page, which allows the user to save a stock by its ticker, and reference his/her bookmarks page to view a consolidation of their saved stocks. The user can then choose to delete a stock from their bookmarks page via a drop-down menu at the bottom.
+```
+$ python stocktalk/main.py
+```
 
-Notably:
-	1. The user must input the same password / confirmation password on the register page or they will be redirected to register page.
-	2. The user must input a unique username for register to succeed, else they will be prompted by a Javascript alert
-	3. The user must input a correct username/password combination for login to succeeded, or they will be redirected to the login page.
-	4. The user must be logged-in to access the financial utilities.
-	5. Bookmarks is implemented so that the user cannot bookmark the same stock twice.
+This should set up and run the app on your local machine. The website will be hosted on your localhost. You can open up the website by visiting the url *localhost:5000* on your local internet browser.
 
-5. Relevantly, the IEX Finance API is utilized to lookup relevant stock information. PostgresSQL is utilized as a open source database to save user log-in information and bookmarked stocks. Heroku is utilized to deploy our web application to an online host. Github was used as a method of version control and as a helper to deploy to Heroku.
+## Using the App
 
-6. A basic tutorial process to explore all of the utility of StockTalk - register, login, lookup, bookmark, and delete is as follows:
-	1. Register an account through a three-field form with a unique username and a password and confirmation that match each other.
-	2. Login with registered user information through a two-field form by inputting a correct username and password into the login page.
-	3. Enter an appropriate stock symbol (ex: 'AAPL') in the lookup form from NASDAQ, NYSE markets.
-	4. Observe relevant stock information and algorithm based prediction on the results page, choose to either lookup a different stock by accessing the lookup page through the navbar or bookmark the current stock using the bookmark button
-	5. Upon bookmarking, the user will be redirected to the bookmarks page where they can view all of their bookmarked stocks and a prediction for each stock.
-	6. At the bottom of the bookmarks page, the user can choose to delete a bookmarked stock through a drop-down menu and submit button.
+StockTalk has the following features: register, login, predict, bookmark, and delete. A guide to each of these features follows.
 
-StockTalk created by Harvard College students Eddie Tu '22 and Timothy Li '22
+### Register
+
+Create a new account by navigating to the register page via the navigation bar at the top of the page.  To successfully register a new user, you must have a unique username and correctly input the same password twice.
+
+### Login
+
+To login and use the app/save your bookmarked stocks, navigate to the login page via the navigation bar at the top of the page. Provided that you have inputted an existing username and the correct password, you should now be redirected to the predict page. You must be logged in to use StockTalk.
+
+### Predict
+
+On the predict page, you can input the ticker symbol of an existing stock and have the website predict the future value of the stock. This process may take some time, as the app must build and train a model to give a prediction.
+
+### Bookmark
+
+After predicting the future value of a stock, you are given the option to save this stock to your bookmarked stocks. Bookmarks is implemented such that you cannot bookmark the same stock twice. After bookmarking a stock, you will be redirected to the bookmarks page, which predicts the stock price for all of your bookmarked stocks. Alternatively, you can navigate directly to the bookmarks page via the navigation bar at the top, provided you are logged in.
+
+The bookmark page also allows you to select a stock via a dropdown menu and delete said stock from your bookmarked stocks.  Once the stock is deleted, the bookmark page will reload with your updated stocks and their predictions.
+
+## Additional Information
+
+1. The user must input the same password / confirmation password on the register page or they will be redirected to the register page.
+2. The user must input a unique username for register to succeed, else they will be prompted by a Javascript alert to choose a different username.
+3. The user must input a correct username/password combination for login to succeeded, or they will be redirected to the login page.
+4. The user must be logged-in to access the financial utilities.
+5. Bookmarks is implemented so that the user cannot bookmark the same stock twice.
+
+### Built With
+
+StockTalk employs Python for the back-end, and Flask, CSS, HTML, & Javascript for the front-end website. StockTalk uses Iex to gather financial data, and tensorflow to build and train a model.
+
+### Authors
+
+* Timothy Li
+* Eddie Tu
+
+### Acknowledgments
+
+* CS50
+* Isaac Struhl
+* Ben Kaplan
