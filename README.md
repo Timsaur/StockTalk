@@ -58,7 +58,7 @@ The bookmark page also allows you to select a stock via a dropdown menu and dele
 
 ### Built With
 
-StockTalk employs Python for the back-end, and Flask, CSS, HTML, & Javascript for the front-end website. StockTalk uses Iex to gather financial data, and tensorflow to build and train a model.
+StockTalk employs Python for the back-end, and Flask, CSS, HTML, & Javascript for the front-end website. StockTalk uses the IEX API to gather financial data, PostgresSQL to store information, and TensorFlow to build and train a model.
 
 ### Authors
 

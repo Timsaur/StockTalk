@@ -3,12 +3,11 @@ import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np
 #import test
-from graph import *
-from flask import Flask, render_template, g, request, jsonify
+from flask import Flask, render_template, g, request, jsonify, redirect, url_for, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import create_engine
-# import graph
+from functools import wraps
 import json
 import requests
 from predict import *
@@ -28,6 +27,15 @@ db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f
 # DATABASE_URL = os.environ['DATABASE_URL']
 # print(os.environ)
 # conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+#via http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("login")
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
