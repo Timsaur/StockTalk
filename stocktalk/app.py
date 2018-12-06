@@ -7,7 +7,7 @@ from flask import Flask, render_template, g, request, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import create_engine
-# import graph
+from functools import wraps
 import json
 import requests
 from predict import *
