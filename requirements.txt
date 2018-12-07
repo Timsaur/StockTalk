@@ -15,4 +15,3 @@ numpy
 werkzeug
 sqlalchemy
 requests
-sys

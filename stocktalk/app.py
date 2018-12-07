@@ -11,24 +11,16 @@ import json
 import requests
 from predict import *
 
-# postgresql-spherical-72286
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'XYZ')
 db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f551bd9abeeb3e51a4ef19dd3cca5bb@ec2-54-204-36-249.compute-1.amazonaws.com:5432/dcgq0vpeghnls2')
 
+# code used to create our users and stocks tables on PostgresSQL
 # db.execute("CREATE TABLE users (id int, username varchar(255), password varchar(255))")
 # db.execute("CREATE TABLE stocks (id int, username varchar(255), stock varchar(255))")
-# db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f551bd9abeeb3e51a4ef19dd3cca5bb@ec2-54-204-36-249.compute-1.amazonaws.com:5432/dcgq0vpeghnls2')
-
-# db.execute("CREATE TABLE stocks (id int, username varchar(255), ticker varchar(255))")
-
-# DATABASE_URL = os.environ['DATABASE_URL']
-# print(os.environ)
-# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 # via http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
-
 # Ensures user is logged-in in order to access particular pages
 def login_required(f):
     @wraps(f)
@@ -38,6 +30,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# index allows the user to look up a stock and see the prediction of the stock price
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
@@ -68,6 +61,7 @@ def index():
 		return render_template("result.html", data=data)
 	return render_template("base.html")
 
+# POST result will bookmark the stock
 @app.route('/result', methods=['GET', 'POST'])
 @login_required
 def result():
@@ -87,7 +81,7 @@ def result():
 		return redirect("bookmarks")
 	return redirect("/")
 
-
+# login allows the user to login to the application
 @app.route("/login", methods=["GET", "POST"])
 def login():
     session.clear()
@@ -109,10 +103,12 @@ def login():
 
         # Assign user_id for each session
         session["user_id"] = request.form.get("username")
+
         # Direct user to predict page upon successful login
         return redirect("/")
     return render_template("login.html")
 
+# register allows the user to register an account
 @app.route("/register", methods=["GET", "POST"])
 def register():
     # Ensure username, password, and confirmation forms are filled
@@ -148,6 +144,7 @@ def register():
         return redirect("login")
     return render_template("register.html")
 
+# check checks the database to see if a username is valid or not
 @app.route("/check", methods=["GET"])
 def check():
     if not request.args.get("username"):
@@ -160,6 +157,7 @@ def check():
     # If not, return true
     return jsonify(True)
 
+# bookmarks displays the stocks that a user has bookmarked and their relative prediction prices
 @app.route("/bookmarks", methods=["GET", "POST"])
 @login_required
 def bookmarks():
@@ -171,7 +169,7 @@ def bookmarks():
 
     bookmarks = db.execute("SELECT * FROM stocks WHERE username= '%s'" % session.get("user_id"))
     fetch = bookmarks.fetchall()
-    # fetch = [{"ticker":"aapl"},{"ticker":"amzn"}]
+
     data = []
     for stock in fetch:
         url = 'https://api.iextrading.com/1.0/stock/' + stock["stock"] + '/chart/2y'
@@ -185,6 +183,7 @@ def bookmarks():
         data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(stock["stock"]), "ticker":stock["stock"].upper()})
     return render_template("bookmarks.html", data=data)
 
+# logout lets a user log out of the application
 @app.route("/logout")
 @login_required
 def logout():
