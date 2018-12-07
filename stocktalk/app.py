@@ -11,24 +11,16 @@ import json
 import requests
 from predict import *
 
-# postgresql-spherical-72286
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'XYZ')
 db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f551bd9abeeb3e51a4ef19dd3cca5bb@ec2-54-204-36-249.compute-1.amazonaws.com:5432/dcgq0vpeghnls2')
 
+# code used to create our users and stocks tables on PostgresSQL
 # db.execute("CREATE TABLE users (id int, username varchar(255), password varchar(255))")
 # db.execute("CREATE TABLE stocks (id int, username varchar(255), stock varchar(255))")
-# db = create_engine('postgres://arbizklxkkfsjo:742246e607fcaaa7b1faf6e7dab54d082f551bd9abeeb3e51a4ef19dd3cca5bb@ec2-54-204-36-249.compute-1.amazonaws.com:5432/dcgq0vpeghnls2')
-
-# db.execute("CREATE TABLE stocks (id int, username varchar(255), ticker varchar(255))")
-
-# DATABASE_URL = os.environ['DATABASE_URL']
-# print(os.environ)
-# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 # via http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
-
 # Ensures user is logged-in in order to access particular pages
 def login_required(f):
     @wraps(f)
@@ -107,11 +99,9 @@ def login():
         if not fetch or not check_password_hash(fetch[0]["password"], request.form.get("password")):
             return render_template("login.html")
 
-<<<<<<< HEAD
         # Assign user_id for each session
-=======
->>>>>>> 794e7cd75dfe55427a7c3275966683469a18ca86
         session["user_id"] = request.form.get("username")
+        
         # Direct user to predict page upon successful login
         return redirect("/")
     return render_template("login.html")

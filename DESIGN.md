@@ -136,6 +136,14 @@ Defines a page that prompts the user to input a stock to predict the future pric
 
 #### result()
 
+#### check()
+
+check() will return a json page with a value of false if the username in arguments exists in the users SQL table, and false otherwise. We call this method in the JavaScript function in register.html.
+
+#### bookmarks()
+
+#### logout()
+
 ## Additional Information
 
 1. The user must input the same password / confirmation password on the register page or they will be redirected to the register page.
