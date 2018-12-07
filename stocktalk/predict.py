@@ -5,7 +5,7 @@ import json
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-# import sys
+import sys
 
 # FACTORS stores the number of factors that we have in our training dataset
 FACTORS = 4
@@ -89,8 +89,8 @@ def run(ticker):
 
 	return(round(test_prediction[0][0]+avg, 2))
 
-# if __name__ == '__main__':
-# 	try:
-# 		run(sys.argv[1])
-# 	except:
-# 		print("Please input a stock ticker symbol.")
+if __name__ == '__main__':
+	try:
+		run(sys.argv[1])
+	except:
+		print("Please input a stock ticker symbol.")
