@@ -6,10 +6,8 @@ psycopg2
 tensorflow
 keras
 psycopg2-binary
-pygresql
 keras
 psycopg2-binary
-pygresql
 matplotlib
 numpy
 werkzeug
