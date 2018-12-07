@@ -46,7 +46,7 @@ Actively checks if username already exists in database and alerts the user by a 
 
 ## Back-end
 
-### APIs
+### APIs/Packages
 
 #### IEX Finance API
 
@@ -74,22 +74,37 @@ We used TensorFlow to build and train a model. Specifically, we used tensorflow.
 
 More information on how we used TensorFlow can be found in the **predict.py** file explanation.
 
-### Files
+### predict.py
 
-#### predict.py
+If you would like to run **predict.py** separately from the rest of the app, use the following command:
+
+```
+python predict.py
+```
 
 predict.py has the following methods: get_data, build_model, train, and run. Each of these methods will be explained in more detail below:
 
-##### get_data(ticker)
+#### get_data(ticker)
 
-get_data(ticker) takes in a company's ticker symbol and then calls the IEX API. It then stores the raw data in a variable called raw. 
+get_data(ticker) takes in a company's ticker symbol and then calls the IEX API. It then stores the raw data in a variable called raw. We also repeat this process to find the relavent data from the S&P 500 stock. We then process this data and store it in train_data, which is a numpy two-dimensional array.
 
-##### build_model(train_data)
+There are four factors in our train_data array: the present open value of the stock, the average of the open stock price for the last 25 days, the present volume of the stock traded divided by 10000000 to normalize the data, and the present value of the S&P 500 divided by 100 as a normalization factor.
 
-##### train(data)
+The train_labels variable is a two-dimensional array once column wide. This array stores the "future" value of the corresponding row in train_data. Finally, we return these two matricies as a tuple.
 
-##### run(ticker)
+#### build_model(train_data)
 
+build_model(train_data) creates a neural network through the tensorflow.keras package. In our model, our neural network has two hidden layers, each with 64 nodes. build_model then returns the regression model. We pass in train_data so we can determine how many inputs the model needs.
+
+#### train(data)
+
+train(data) trains the model on the training data 10 times, then returns the trained model. Data is a tuple that contains train_data and train_labels. train returns the trained model.
+
+#### run(ticker)
+
+run(ticker) takes in a ticker symbol, then first runs get_data to get all the necessary data the model needs and stores it in train_data and train_labels. Then, run builds the model via the train function. Once the model is trained, we once again process the present finanial data to give to the model for it to predict our stock. run then returns the value of the prediction. For valuation purposes, run also prints to the console the value of the prediction and the error of the model when run on training data.
+
+*Note: We do realize that evaluating the model on the same set of data it was trained on is not the best way to measure accuracy of the model, as the model may be overfitted. In the future, we would like to separate our data into training and test data to have a more accurate valuation.*
 
 ## Integration
 

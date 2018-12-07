@@ -107,7 +107,10 @@ def login():
         if not fetch or not check_password_hash(fetch[0]["password"], request.form.get("password")):
             return render_template("login.html")
 
+<<<<<<< HEAD
         # Assign user_id for each session
+=======
+>>>>>>> 794e7cd75dfe55427a7c3275966683469a18ca86
         session["user_id"] = request.form.get("username")
         # Direct user to predict page upon successful login
         return redirect("/")
