@@ -13,6 +13,7 @@ history = []
 volume = []
 sp = []
 
+
 def get_data(ticker):
 	url = 'https://api.iextrading.com/1.0/stock/' + ticker + '/chart/2y'
 	r = requests.get(url)
@@ -73,7 +74,7 @@ def run(ticker):
 
 	return(round(test_prediction[0][0]+avg, 2))
 
-
+# Allows user to independently run predict.py by inputting a ticker through a command-line argument
 if __name__ == '__main__':
 	try:
 		run(sys.argv[1])

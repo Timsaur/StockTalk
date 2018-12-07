@@ -132,9 +132,11 @@ Checks to confirm if users have met certain login criteria. User must have fille
 
 #### index()
 
-Defines a page that prompts the user to input a stock to predict the future price for. The inputted ticker must be available to lookup from the IEX Finance API, and the ticker used will be saved to a global session["ticker"] variable. Data that is retreived from the API will be saved to a list of dictionaries called data. This information includes a date, open price, volume trade, close price, future prediction price, and ticker.
+Establishes criteria on a page that prompts the user to input a stock to predict the future price for. The inputted ticker must be available to lookup from the IEX Finance API, and the ticker used will be saved to a global session["ticker"] variable. Data that is retreived from the API will be saved to a list of dictionaries called data. This information includes a date, open price, volume trade, close price, future prediction price, and ticker.
 
 #### result()
+
+Defines a function that enables a bookmark option for the user. Via the global variable of session["ticker"], on POST submission, result() will test if the ticker is already saved in the database. If already saved, no action will be taken, while if not saved, the username and ticker will be saved accordingly by session.
 
 ## Additional Information
 
