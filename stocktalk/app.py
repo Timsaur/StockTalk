@@ -98,9 +98,6 @@ def login():
         if not fetch or not check_password_hash(fetch[0]["password"], request.form.get("password")):
             return render_template("login.html")
 
-        if len(fetch) == 0 or not check_password_hash(fetch[0]["password"], request.form.get("password")):
-            return render_template("login.html")
-
         session["user_id"] = request.form.get("username")
         print(session.get("user_id"))
         return redirect("/")
