@@ -10,18 +10,39 @@ The design of our project can be split between the front-end, the back-end, and 
 
 ### HTML
 
-#### base.html
+#### layout.html
 
-#### etc etc
+Establishes a template for other .html pages to extend. Intial scripts/design for the template sourced from: Krajee.com. Reference LICENSE.md for more information about the authors of the template.
+
+#### register.html
+
+Features a 3-form submit form for the user to create an account that is saved to a PostgresSQL database. Includes a Javascript alert function in the case that the username input has already been taken by another user. Links to '/login' upon completion.
+
+#### login.html
+
+Features a 2-form submit form for the user to log-in with registered username/password. Pulls from PostgresSQL database to confirm validity of log-in information. Links to '/' on completion.
+
+####  base.html
+
+Features a 1-form submit form for the user to input a stock ticker to predict stock behavior. Links to '/result' upon correct ticker input.
+
+#### result.html
+
+Displays a table of relevant financial data for the user's stock of choice, and features an algorithm based prediction of the stock behavior for the following day. Optionally, the user can choose to bookmark the stock they are currently looking up. Links to '/bookmarks' on bookmark.
+
+#### bookmarks.html
+
+Displays tables for all user bookmarked stocks similarly to result.html for convenient access to stocks that the user is "watching". Optionally, the user can choose to delete a stock from their bookmarks list via a select menu at the bottom of the page. 
 
 ### CSS
 
-####
+Reference <head> of layout.html for linked stylesheets via template from Krajee.com.
 
 ### JavaScript
 
-####
+#### test()
 
+Actively checks if username already exists in database and alerts the user by a jsonify TRUE/FALSE test. If FALSE, the alert will run.
 
 ## Back-end
 
@@ -77,6 +98,28 @@ get_data(ticker) takes in a company's ticker symbol and then calls the IEX API. 
 #### Flask
 
 #### Heroku
+
+### app.py
+
+app.py has the following methods: login_required, index, result, login, register, check, bookmarks, logout
+
+#### login_required(f)
+
+Defines a decorator function that can be applied to other methods. Used to grant access to certain pages only to users that are logged in and have a defined session["user_id"].
+
+#### register()
+
+Checks to confirm if users have met certain registration criteria. User must have filled out 3-field form to completion, password and confirmation must match, the username must not match previously submitted usernames. If successful, the inputted username and hashed version of password will be saved to the database.
+
+#### login()
+
+Checks to confirm if users have met certain login criteria. User must have filled out 2-field form to completion, username and password must match what is queried from the database. Upon successful login, the user will be redirected to the home screen. The username used to login will be saved to as session["user_id"] for future use.
+
+#### index()
+
+Defines a page that prompts the user to input a stock to predict the future price for. The inputted ticker must be available to lookup from the IEX Finance API, and the ticker used will be saved to a global session["ticker"] variable. Data that is retreived from the API will be saved to a list of dictionaries called data. This information includes a date, open price, volume trade, close price, future prediction price, and ticker.
+
+#### result()
 
 ## Additional Information
 
