@@ -30,6 +30,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# index allows the user to look up a stock and see the prediction of the stock price
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
@@ -60,6 +61,7 @@ def index():
 		return render_template("result.html", data=data)
 	return render_template("base.html")
 
+# POST result will bookmark the stock
 @app.route('/result', methods=['GET', 'POST'])
 @login_required
 def result():
@@ -79,7 +81,7 @@ def result():
 		return redirect("bookmarks")
 	return redirect("/")
 
-
+# login allows the user to login to the application
 @app.route("/login", methods=["GET", "POST"])
 def login():
     session.clear()
@@ -101,11 +103,12 @@ def login():
 
         # Assign user_id for each session
         session["user_id"] = request.form.get("username")
-        
+
         # Direct user to predict page upon successful login
         return redirect("/")
     return render_template("login.html")
 
+# register allows the user to register an account
 @app.route("/register", methods=["GET", "POST"])
 def register():
     # Ensure username, password, and confirmation forms are filled
@@ -141,6 +144,7 @@ def register():
         return redirect("login")
     return render_template("register.html")
 
+# check checks the database to see if a username is valid or not
 @app.route("/check", methods=["GET"])
 def check():
     if not request.args.get("username"):
@@ -153,6 +157,7 @@ def check():
     # If not, return true
     return jsonify(True)
 
+# bookmarks displays the stocks that a user has bookmarked and their relative prediction prices
 @app.route("/bookmarks", methods=["GET", "POST"])
 @login_required
 def bookmarks():
@@ -164,7 +169,7 @@ def bookmarks():
 
     bookmarks = db.execute("SELECT * FROM stocks WHERE username= '%s'" % session.get("user_id"))
     fetch = bookmarks.fetchall()
-    # fetch = [{"ticker":"aapl"},{"ticker":"amzn"}]
+
     data = []
     for stock in fetch:
         url = 'https://api.iextrading.com/1.0/stock/' + stock["stock"] + '/chart/2y'
@@ -178,6 +183,7 @@ def bookmarks():
         data.append({"date":date[len(date)-1],"open":raw[len(raw)-1]["open"], "volume":raw[len(raw)-1]["volume"], "close":raw[len(raw)-1]["close"], "predict":run(stock["stock"]), "ticker":stock["stock"].upper()})
     return render_template("bookmarks.html", data=data)
 
+# logout lets a user log out of the application
 @app.route("/logout")
 @login_required
 def logout():

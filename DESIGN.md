@@ -112,7 +112,11 @@ run(ticker) takes in a ticker symbol, then first runs get_data to get all the ne
 
 #### Flask
 
+Flask was used to connect the front-end and back-end of the project. We used session variables to keep track of which user was using the website and which stock ticker said user wanted to save.
+
 #### Heroku
+
+Heroku was used to host our website.
 
 ### app.py
 
@@ -142,15 +146,11 @@ check() will return a json page with a value of false if the username in argumen
 
 #### bookmarks()
 
+If the bookmarks page recieves a GET request, the bookmarks page will grab all of the stocks that the currently logged in user has, then run them through our prediction and finally display the relavent stock information and the resulting prediction. If the bookmarks page recieves a POST request, that means that the user has decided to delete one of his stocks from his list of bookmarked stocks. bookmarks will then proceed to remove the stock from the PostgresSQL database and return the updated page of bookmarks.
+
 #### logout()
 
-## Additional Information
-
-1. The user must input the same password / confirmation password on the register page or they will be redirected to the register page.
-2. The user must input a unique username for register to succeed, else they will be prompted by a Javascript alert to choose a different username.
-3. The user must input a correct username/password combination for login to succeeded, or they will be redirected to the login page.
-4. The user must be logged-in to access the financial utilities.
-5. Bookmarks is implemented so that the user cannot bookmark the same stock twice.
+Logout clears the flask session's information and returns the user to the login page.
 
 ### Authors
 
